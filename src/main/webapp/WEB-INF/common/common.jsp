@@ -14,7 +14,7 @@
 	<c:set var="whologin" value="0" />
 </c:if>
 <c:if test="${not empty sessionScope.loginfo}">
-	<c:if test="${sessionScope.loginfo.id == 'admin'}">\
+	<c:if test="${sessionScope.loginfo.id == 'admin'}">
 		<!-- 관리자로 로그인한 경우 -->
 		<c:set var="whologin" value="2" />
 	</c:if>
@@ -213,6 +213,15 @@
     		<strong>${requestScope.errmsg}</strong>
 		</div>
 	</c:if>
+	
+	<c:if test="${not empty sessionScope.errmsg}">
+		<div class="alert alert-danger alert-dismissable">
+    		<a href="#" id="myalert" class="close" data-dismiss="alert" aria-label="close">닫기</a>
+    		<strong>${sessionScope.errmsg}</strong>
+		</div>
+		<c:remove var="errmsg" scope="session"/>
+	</c:if>
+	
 	<c:if test="${not empty sessionScope.message}">
 		<script type="text/javascript">
 			/* alert('${sessionScope.message}') ;	 */ 

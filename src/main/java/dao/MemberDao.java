@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,15 +50,17 @@ public class MemberDao {
 	
 	public int UpdateData(Member bean) {
 		// 회원 정보를 수정합니다.
-		return 0 ;
+		return this.abcd.update(namespace + "UpdateData", bean) ;
 	}
 
-	public List<Member> SelectDataList(int beginRow, int endRow) {
-		return null ;
+	public List<Member> SelectDataList(int offset, int limit) {
+		// RowBounds 객체를 사용한 페이징 처리입니다.
+		RowBounds rbs = new RowBounds(offset, limit);
+		return this.abcd.selectList(namespace + "SelectDataList", null, rbs);
 	}
 
 	public int SelectTotalCount() {
-		return 0 ; 
+		return this.abcd.selectOne(namespace + "SelectTotalCount"); 
 	}
 
 	public int DeleteData(Member bean) {

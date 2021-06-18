@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@include file="./../common/common.jsp"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%
 	int myoffset = 2 ;
 	int mywidth = twelve - 2 * myoffset;
@@ -30,14 +32,14 @@
 				<font color="red"><b>회원 수정</b></font> 페이지입니다.
 			</div>
 			<div class="panel-body sub_container">
-				<form class="form-horizontal" role="form" name="myform" action="<%=YesForm%>"  method="post">
-					<input type="hidden" name="command" value="update.me">
+				<c:set var="apppath" value="<%=contextPath%>"></c:set>
+				<form:form modelAttribute="member" class="form-horizontal" role="form" name="myform" action="${appth}/update.me"  method="post">
 					<div class="form-group">
 						<label for="id" class="col-xs-<%=formleft%> col-lg-<%=formleft%> control-label">아이디</label>
 	        			<div class="col-xs-<%=formright-2%> col-lg-<%=formright-2%>">
 	            			
-	            			<input type="text" name="fakeid" id="fakeid" class="form-control" 
-	            				placeholder="아이디" disabled="disabled" value="${requestScope.bean.id}" > 
+	            			<form:input path="id" type="text" name="fakeid" id="fakeid" class="form-control" 
+	            				placeholder="아이디" disabled="disabled" value="${requestScope.bean.id}" /> 
 	            			
 	            			<input type="hidden" name="id" id="id" value="${requestScope.bean.id}" >
 	            			
@@ -71,6 +73,7 @@
 						<label for="hiredate" class="col-xs-<%=formleft%> col-lg-<%=formleft%> control-label">입사 일자</label>
 	        			<div class="col-xs-<%=formright%> col-lg-<%=formright%>">
 	            			<input type="text" name="hiredate" id="hiredate" class="form-control" placeholder="입사 일자" value="${requestScope.bean.hiredate}" >
+	            			<fmt:formatDate pattern="yyyy/MM/dd" value="${requestScope.bean.hiredate}"/>
 	            			<span class="err">${errhiredate}</span>
 	        			</div>
 	        		</div>
@@ -183,7 +186,7 @@
 							<button type="reset" class="btn btn-default">취소</button>
 						</div>
 					</div>
-				</form>
+				</form:form>
 			</div>
 		</div>		
 	</div>

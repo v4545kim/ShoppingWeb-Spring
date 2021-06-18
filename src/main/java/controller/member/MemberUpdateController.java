@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import bean.CheckBean;
@@ -19,14 +20,19 @@ import controller.common.SuperClass;
 import dao.MemberDao;
 
 @Controller
-public class MemberInsertController extends SuperClass{
-	private final String command = "/insert.me";
+public class MemberUpdateController extends SuperClass{
+	private final String command = "/update.me";
 	private ModelAndView mav = null;
-	private final String redirect = "redirect:/login.me";
+	private final String redirect = "redirect:/main.co";
 	
 	@Autowired
 	@Qualifier("mdao")
 	private MemberDao mdao ;
+	
+	public MemberUpdateController() {
+		super("meUpdateForm", "boList");
+		this.mav = new ModelAndView();
+	}
 	
 	@ModelAttribute("member")
 	public Member mymember() {
@@ -51,36 +57,37 @@ public class MemberInsertController extends SuperClass{
 		return lists;
 	}
 	
-	public MemberInsertController() {
-		super("meInsertForm", "boList");
-		this.mav = new ModelAndView();
-	}
-	
 	@GetMapping(command)
-	public ModelAndView doGet() {
+	public ModelAndView doGet(
+			@RequestParam(value = "id", required = true) String id) {
+		Member bean = mdao.SelectDataByPk(id);
+		
+		this.mav.addObject("bean", bean);
 		this.mav.setViewName(super.getpage);
+		
 		return this.mav;
 	}
 	
 	@PostMapping(command)
 	public ModelAndView doPost(
-			@ModelAttribute("member") @Valid Member xxx, BindingResult asdf) {
-		// 커맨드 객체를 사용하여 유효성 검사를 진행하여아 합니다.
-		if (asdf.hasErrors()) {
+			@ModelAttribute("member") @Valid Member xxx,
+			BindingResult asdf) {
+		
+		if (asdf.hasErrors()) { // failure
 			System.out.println("유효성 검사에 문제가 있음");
 			System.out.println(xxx.toString());
 			System.out.println(asdf.toString());
-			mav.addObject("bean",xxx);
-			mav.setViewName(super.getpage);
 			
-		} else {
+			this.mav.addObject("bean", xxx);
+			this.mav.setViewName(super.getpage);
+		} else { // success
 			System.out.println("유효성 검사에 문제가 없음");
-			int cnt = -1;
-			cnt = mdao.InsertData(xxx);
 			
-			mav.setViewName(redirect);
+			int cnt = -1;
+			cnt = mdao.UpdateData(xxx);
+			
+			this.mav.setViewName(redirect);
 		}
-		
 		
 		return this.mav;
 	}

@@ -35,7 +35,7 @@
 		where id = #{id}
 	</update>		
 	<select id="SelectDataList" resultType="MyMember">
-		select id, name, password, salary, hiredate, gender, hobby, job, zipcode, address1, address2, mpoint, ranking 
+		select id, name, password, salary, hiredate, gender, hobby, job, zipcode, address1, address2, mpoint 
 		from members
 	</select>	
 	<select id="SelectTotalCount" resultType="int">
