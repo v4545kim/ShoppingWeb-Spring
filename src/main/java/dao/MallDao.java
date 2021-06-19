@@ -88,11 +88,10 @@ public class MallDao {
 		return this.abcd.selectList(namespace + "ShowDetail", oid);				
 	}	
 	
-
+	
+	// 로그인시 나의 이전 장바구니 내열 정보를 읽어 옵니다.
 	public List<ShoppingInfo> GetShoppingInfo(String id) {
-//		String sql = " select * from shoppinginfos " ;
-//		sql += " where mid = ? " ;
-		return null ;
+		return this.abcd.selectList(namespace + "GetShoppingInfo", id);	
 	}	
 	
 

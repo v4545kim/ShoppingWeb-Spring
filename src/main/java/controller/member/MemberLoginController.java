@@ -1,5 +1,7 @@
 package controller.member;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import bean.Member;
 import controller.common.SuperClass;
+import dao.MallDao;
 import dao.MemberDao;
+import shopping.MyCartList;
+import shopping.ShoppingInfo;
 
 @Controller
 public class MemberLoginController extends SuperClass{
@@ -23,6 +28,10 @@ public class MemberLoginController extends SuperClass{
 	@Autowired
 	@Qualifier("mdao")
 	private MemberDao dao;
+	
+	@Autowired
+	@Qualifier("malldao")
+	private MallDao malldao;
 	
 	public MemberLoginController() {
 		super("meLoginForm", null);
@@ -64,8 +73,18 @@ public class MemberLoginController extends SuperClass{
 				session.setAttribute("loginfo", bean);
 				
 				// 장바구니 테이블에서 이전 나의 쇼핑 정보 가져 오기
+				List<ShoppingInfo> lists =  this.malldao.GetShoppingInfo(id);
 				
-				
+				if (lists.size() > 0) { // 이전 wishlist가 있는 경우
+					MyCartList mycart = new MyCartList();
+					
+					// 반복문을 사용하여, 카트에 목록을 저장합니다.
+					for (ShoppingInfo shop : lists) {
+						// 해당 상품 번호에 대한 구매 수량을 장바구니에 담아 둡니다.
+						mycart.AddOrder(shop.getPnum(), shop.getQty());
+					}
+					session.setAttribute("mycart", mycart);
+				}
 				this.mav.setViewName(redirect);
 			}
 		} else { // 문제가 있음

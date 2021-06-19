@@ -25,9 +25,9 @@ public class MyCartList {
 	}
 	
 	// 장바구니 내역 정보를 수정합니다.
-	public void EditOrder(int pnum, int stock) {
+	public void EditOrder(int pnum, int qty) {
 		// pnum는 수정될 상품 번호, stock은 수정할 수량
-		this.AddOrder(pnum, stock);
+		this.AddOrder(pnum, qty);
 	}
 	
 	// 장바구니에 들어 있는 해당 상품을 삭제합니다.

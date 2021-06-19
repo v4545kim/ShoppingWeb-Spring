@@ -6,7 +6,13 @@
 	<select id="SelectDataByPk" parameterType="Integer" resultType="MyOrder">
 		 select * from orders
 		 where oid = #{oid}  
+	</select>
+	
+	<select id="GetShoppingInfo" parameterType="String" resultType="MyShoppingInfo">
+		 select * from shoppinginfos
+		 where mid = #{id}  
 	</select>	
+		
 	<insert id="InsertOrder" parameterType="MyOrder">
 		insert into orders(oid, mid, orderdate, remark)
 		values(seqoid.nextval, #{mid}, sysdate,  #{remark})

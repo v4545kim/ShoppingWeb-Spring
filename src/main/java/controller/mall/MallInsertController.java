@@ -64,7 +64,7 @@ public class MallInsertController  extends SuperClass{
 				if (mycart == null) { // 카트 준비가 안 되어있으면
 					mycart = new MyCartList(); // 매장 입구에서 카트 준비
 				}
-				mycart.AddOrder(num, stock);
+				mycart.AddOrder(num, qty);
 				session.setAttribute("mycart", mycart);
 				
 				System.out.println("장바구니 품목 수");
